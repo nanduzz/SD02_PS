@@ -1,7 +1,6 @@
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -14,21 +13,21 @@ import java.util.List;
  *
  * @author guest-vuu80z
  */
-public class ServidorEmailImpl extends java.rmi.server.UnicastRemoteObject implements Subscriber {
+public class SubscriberImpl extends java.rmi.server.UnicastRemoteObject implements Subscriber {
 
     private List<String> topics;
 
-    public ServidorEmailImpl() throws RemoteException {
+    public SubscriberImpl() throws RemoteException {
         super();
         this.topics = new ArrayList<>();
     }
 
-    private void subscribe(String topic) {
+    public void subscribe(String topic) {
         this.topics.add(topic);
     }
 
     @Override
-    public void recebeDados(String topic, String dados) throws RemoteException {
+    public void receberDados(String topic, String dados) throws RemoteException {
         if (this.topics.contains(topic)) {
             System.out.println("---------------------------");
             System.out.println("Recebendo Tópico:" + topic);

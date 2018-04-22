@@ -30,10 +30,11 @@ public class Publish {
     }
 
     public Publish() throws NotBoundException, Exception {
-        this.middle = (Middle) Naming.lookup("//127.0.0.1:1099/FrontEndEmail");
+        this.middle = (Middle) Naming.lookup("//127.0.0.1:1099/i1");
+        this.middle.publish("Topic", "Conteudo");
     }
 
-    public boolean enviaEmail() {
+    private boolean enviaEmail() {
         Scanner s = new Scanner(System.in);
 
         System.out.println("Destinatario:");

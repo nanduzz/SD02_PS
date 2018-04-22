@@ -12,8 +12,6 @@ public interface Middle extends java.rmi.Remote {
 
     public boolean publish(String topic, String conteudo) throws java.rmi.RemoteException;
 
-    public Email subscribe(String login) throws java.rmi.RemoteException;
-
-    public void connect(String endereco) throws java.rmi.RemoteException;
+    public void subscribe(String topic, Subscriber subscriber) throws java.rmi.RemoteException;
 
 }

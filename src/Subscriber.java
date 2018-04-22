@@ -10,6 +10,6 @@
  */
 public interface Subscriber extends java.rmi.Remote {
     
-    public void recebeDados(String topic, String dados) throws java.rmi.RemoteException;
+    public void receberDados(String topic, String dados) throws java.rmi.RemoteException;
 
 }
