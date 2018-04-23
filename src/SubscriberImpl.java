@@ -16,19 +16,13 @@ import java.util.List;
  */
 public class SubscriberImpl extends java.rmi.server.UnicastRemoteObject implements Subscriber {
 
-    private List<String> topics;
-
     private final String nome;
 
     public SubscriberImpl(String nome) throws RemoteException {
         super();
-        this.topics = new ArrayList<>();
         this.nome = nome;
     }
 
-    public void subscribe(String topic) {
-        this.topics.add(topic);
-    }
 
     @Override
     public void receberDados(String topic, String dados) throws RemoteException {

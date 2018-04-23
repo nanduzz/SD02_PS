@@ -1,5 +1,4 @@
 
-import java.io.Serializable;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -20,18 +19,20 @@ public class MiddleImpl extends java.rmi.server.UnicastRemoteObject implements M
 
     HashMap<String, List<Subscriber>> destinos;
     private final String nome;
+    private final List<String> listaIntermediarios;
 
     public MiddleImpl(String nome) throws RemoteException {
         super();
         this.destinos = new HashMap<>();
         this.nome = nome;
+        this.listaIntermediarios = new ArrayList<>();
 //        this.disparador = disparador;;
     }
 
     @Override
     public boolean publish(String topic, String conteudo) throws RemoteException {
-        System.out.println("publish topic" + topic);
-        System.out.println("publish conteudo" + conteudo);
+        System.out.println("publish topic:" + topic);
+        System.out.println("publish conteudo:" + conteudo);
         if (destinos.containsKey(topic)) {
             for (Subscriber s : destinos.get(topic)) {
                 s.receberDados(topic, conteudo);
@@ -43,11 +44,20 @@ public class MiddleImpl extends java.rmi.server.UnicastRemoteObject implements M
     @Override
     public void subscribe(String topic, String nome) throws RemoteException {
         try {
-            Subscriber s = (Subscriber) Naming.lookup("//127.0.0.1:1099/" + nome);
-            if(!this.destinos.containsKey(topic)){
+            if (!this.destinos.containsKey(topic)) {
                 this.destinos.put(topic, new ArrayList<>());
             }
+            Subscriber s = (Subscriber) Naming.lookup("//127.0.0.1:1099/" + nome);
             this.destinos.get(topic).add(s);
+
+            for (String middleName : this.listaIntermediarios) {
+                try {
+                    Subscriber subs = (Subscriber) Naming.lookup("//127.0.0.1:1099/" + middleName);
+                    subs.subscribe(topic, this.getConnectionName());
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -63,6 +73,10 @@ public class MiddleImpl extends java.rmi.server.UnicastRemoteObject implements M
     @Override
     public String getConnectionName() {
         return this.nome;
+    }
+
+    public void adicionaIntermediario(String nome) {
+        this.listaIntermediarios.add(nome);
     }
 
 }

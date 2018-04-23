@@ -1,5 +1,6 @@
 
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.util.Scanner;
 
 /*
@@ -13,32 +14,31 @@ import java.util.Scanner;
  */
 public class Intermediario {
 
-    public Intermediario(String nome) {
+    public Intermediario(MiddleImpl middleImpl) {
 
         try {
 //            Subscriber disparador = (Subscriber) Naming.lookup("//127.0.0.1:1099/ServidorEmail");
-            MiddleImpl middleImpl = new MiddleImpl(nome);
             Naming.rebind("//127.0.0.1:1099/" + middleImpl.getConnectionName(), middleImpl);
         } catch (Exception e) {
             System.out.println(e);
         }
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RemoteException {
         Scanner s = new Scanner(System.in);
         System.out.println("Digite o nome do intermediario");
         String nome = s.nextLine().trim();
 
-        Intermediario i = new Intermediario(nome);
+        MiddleImpl middleImpl = new MiddleImpl(nome);
+        Intermediario i = new Intermediario(middleImpl);
         System.out.println("Digite o endereco das conexoes, 0 para sair");
         String conexao;
         while (true) {
             conexao = s.nextLine();
             if (conexao.equals("0")) {
                 break;
-            } else if (conexao.startsWith("i")) {
-
             }
+            middleImpl.adicionaIntermediario(conexao);
         }
     }
 
