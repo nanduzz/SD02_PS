@@ -31,7 +31,7 @@ public class Publish {
 
     public Publish() throws NotBoundException, Exception {
         this.middle = (Middle) Naming.lookup("//127.0.0.1:1099/i1");
-        this.middle.publish("Topic", "Conteudo");
+        this.middle.publish("a1", "Conteudo");
     }
 
     private boolean enviaEmail() {

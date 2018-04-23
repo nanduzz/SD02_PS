@@ -17,10 +17,10 @@ public class Intermediario {
 
         try {
 //            Subscriber disparador = (Subscriber) Naming.lookup("//127.0.0.1:1099/ServidorEmail");
-            MiddleImpl middleImpl = new MiddleImpl();
-            Naming.rebind("//127.0.0.1:1099/" + nome, middleImpl);
+            MiddleImpl middleImpl = new MiddleImpl(nome);
+            Naming.rebind("//127.0.0.1:1099/" + middleImpl.getConnectionName(), middleImpl);
         } catch (Exception e) {
-            System.out.println(e);  
+            System.out.println(e);
         }
     }
 
@@ -28,16 +28,16 @@ public class Intermediario {
         Scanner s = new Scanner(System.in);
         System.out.println("Digite o nome do intermediario");
         String nome = s.nextLine().trim();
-        
+
         Intermediario i = new Intermediario(nome);
-        System.out.println("Digite o endereço das conexões, 0 para sair");
+        System.out.println("Digite o endereco das conexoes, 0 para sair");
         String conexao;
-        while(true){
+        while (true) {
             conexao = s.nextLine();
-            if(conexao.equals("0")){
+            if (conexao.equals("0")) {
                 break;
-            }else if ( conexao.startsWith("i")){
-                
+            } else if (conexao.startsWith("i")) {
+
             }
         }
     }

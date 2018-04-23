@@ -11,5 +11,9 @@
 public interface Subscriber extends java.rmi.Remote {
     
     public void receberDados(String topic, String dados) throws java.rmi.RemoteException;
-
+    
+    public void subscribe(String topic, String nome) throws java.rmi.RemoteException;
+    
+    public String getConnectionName() throws java.rmi.RemoteException;
+    
 }

@@ -14,9 +14,9 @@ import java.util.Scanner;
  */
 public class Subscribe {
 
-    public Subscribe(String connectionName, Subscriber subscriber) {
+    public Subscribe(Subscriber subscriber) {
         try {
-            Naming.rebind("//127.0.0.1:1099/" + connectionName, subscriber);
+            Naming.rebind("//127.0.0.1:1099/" + subscriber.getConnectionName(), subscriber);
         } catch (Exception e) {
             System.out.println(e);
         }
@@ -27,16 +27,17 @@ public class Subscribe {
         System.out.println("Digite o nome do assinante:");
         String nome = scanner.nextLine().trim();
 
-        System.out.println("Digite os tópicos de interesse ou 0 para sair:");
-        SubscriberImpl subscriber = new SubscriberImpl();
+        Subscriber subscriber = new SubscriberImpl(nome);
+        Subscribe s = new Subscribe(subscriber);
         while (true) {
+            System.out.println("Digite o tópico de interesse ou 0 para sair:");
             String topic = scanner.nextLine().trim();
             if (topic.equals("0")) {
                 break;
             }
-            subscriber.subscribe(topic);
+            System.out.println("Digite o nome do intermediario: ");
+            subscriber.subscribe(topic, scanner.nextLine().trim());
         }
-        Subscribe s = new Subscribe(nome, subscriber);
 
     }
 
